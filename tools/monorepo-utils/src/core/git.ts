@@ -513,4 +513,3 @@ export const pushBranchToRemote = async (
 
 	await git.raw( pushArgs );
 };
-
