@@ -494,6 +494,14 @@ export const createEmptyOrphanBranch = async (
 	await git.raw( [ 'rm', '-rf', '.' ] );
 };
 
+/**
+ * Push a branch to remote.
+ * 
+ * @param {string}  tmpRepoPath   path to temporary repo.
+ * @param {string}  branch        the name of the branch to push.
+ * @param {boolean} force         when true, existing local branch will be deleted if it exists.
+ * @param {string}  remoteBranch  the remote branch to push to.
+ */
 export const pushBranchToRemote = async (
 	tmpRepoPath: string,
 	branch: string,
