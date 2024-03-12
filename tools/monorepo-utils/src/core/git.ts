@@ -521,3 +521,22 @@ export const pushBranchToRemote = async (
 
 	await git.raw( pushArgs );
 };
+
+/**
+ * Get commit message.
+ *
+ * @param {string}  tmpRepoPath  path to temporary repo.
+ * @param {string}  hash         the hash for which to get commit message.
+ * @return {string} the commit message.
+ */
+export const getCommitMessage = async (
+	tmpRepoPath: string,
+	hash: string
+): Promise< string > => {
+	const git = simpleGit( {
+		baseDir: tmpRepoPath,
+		config: [ 'core.hooksPath=/dev/null' ],
+	} );
+
+	return git.raw( [ 'show', '-s', '--format=%B', hash ] );
+};
