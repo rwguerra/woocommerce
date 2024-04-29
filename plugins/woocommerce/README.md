@@ -10,6 +10,8 @@ This is the WooCommerce Core plugin. Here you can browse the source and keep tra
 
 If you are not a developer, please use the [WooCommerce plugin page](https://wordpress.org/plugins/woocommerce/) on WordPress.org.
 
+# Dummy change for a dummy PR 
+
 ## Getting Started
 
 Please make sure you follow the [repository's getting started guide](../../README.md#getting-started) first!
