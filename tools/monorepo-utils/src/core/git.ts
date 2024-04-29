@@ -463,7 +463,7 @@ export const checkoutRemoteBranch = async (
 
 /**
  * Create a new orphan branch.
- * 
+ *
  * @param {string}  tmpRepoPath    path to temporary repo.
  * @param {string}  branch         the name of the branch to create.
  * @param {boolean} deleteExisting when true, existing local branch will be deleted if it exists.
@@ -496,11 +496,11 @@ export const createEmptyOrphanBranch = async (
 
 /**
  * Push a branch to remote.
- * 
- * @param {string}  tmpRepoPath   path to temporary repo.
- * @param {string}  branch        the name of the branch to push.
- * @param {boolean} force         when true, existing local branch will be deleted if it exists.
- * @param {string}  remoteBranch  the remote branch to push to.
+ *
+ * @param {string}  tmpRepoPath  path to temporary repo.
+ * @param {string}  branch       the name of the branch to push.
+ * @param {boolean} force        when true, existing local branch will be deleted if it exists.
+ * @param {string}  remoteBranch the remote branch to push to.
  */
 export const pushBranchToRemote = async (
 	tmpRepoPath: string,
@@ -513,7 +513,7 @@ export const pushBranchToRemote = async (
 		config: [ 'core.hooksPath=/dev/null' ],
 	} );
 
-	const branchArg = remoteBranch ?? `${branch}:${remoteBranch}`;
+	const branchArg = remoteBranch ?? `${ branch }:${ remoteBranch }`;
 	const pushArgs = [ 'push', 'origin', branchArg ];
 	if ( force ) {
 		pushArgs.push( '-f' );
@@ -525,8 +525,8 @@ export const pushBranchToRemote = async (
 /**
  * Get commit message.
  *
- * @param {string}  tmpRepoPath  path to temporary repo.
- * @param {string}  hash         the hash for which to get commit message.
+ * @param {string} tmpRepoPath path to temporary repo.
+ * @param {string} hash        the hash for which to get commit message.
  * @return {string} the commit message.
  */
 export const getCommitMessage = async (

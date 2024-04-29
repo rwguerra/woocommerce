@@ -16,16 +16,22 @@ import { loadPackage } from '../../ci-jobs/lib/package-file';
 export function getProjectPathFromFilter( filter ) {
 	let projectPath = null;
 	try {
-		const projects = JSON.parse( spawnSync( 'pnpm', [
-			'-r',
-			'list',
-			'--only-projects',
-			'--json',
-			'--filter',
-			filter,
-		], { encoding: 'utf-8' } ).output.join( '\n' ) );
+		const projects = JSON.parse(
+			spawnSync(
+				'pnpm',
+				[
+					'-r',
+					'list',
+					'--only-projects',
+					'--json',
+					'--filter',
+					filter,
+				],
+				{ encoding: 'utf-8' }
+			).output.join( '\n' )
+		);
 		if ( projects.length === 1 ) {
-			projectPath = projects[0].path;
+			projectPath = projects[ 0 ].path;
 		}
 	} catch ( e ) {}
 	return projectPath;
@@ -33,7 +39,7 @@ export function getProjectPathFromFilter( filter ) {
 
 export function getProdConfig( projectPath ) {
 	const projectJsonPath = path.join( projectPath, 'package.json' );
-	
+
 	const project = loadPackage( projectJsonPath );
 
 	return project.config.prod ?? {};
@@ -52,12 +58,10 @@ export function getTargetBranchFromConfig( projectPath ) {
 export function runBuildCommand( filter ) {
 	const projectPath = getProjectPathFromFilter( filter );
 	const prodConfig = getProdConfig( projectPath );
-	const buildCommand = prodConfig['build-command'];
-	spawnSync( 'pnpm', [
-		'--filter',
-		filter,
-		buildCommand,
-	], { stdio: 'inherit' } );
+	const buildCommand = prodConfig[ 'build-command' ];
+	spawnSync( 'pnpm', [ '--filter', filter, buildCommand ], {
+		stdio: 'inherit',
+	} );
 }
 
 export function getArchiveFromConfig( projectPath ) {
@@ -69,18 +73,20 @@ export async function extractZipTo( zipFile, targetPath ) {
 	// @todo replace with npm package to handle this
 	const tmpDir = path.join( tmpdir(), 'monorepo-utils-tmp', v4() );
 	fs.mkdirSync( tmpDir, { recursive: true } );
-	spawnSync( 'unzip', [
-		zipFile,
-		'-d',
-		tmpDir,
-	] );
-	const dirs = fs.readdirSync( tmpDir, { withFileTypes: true } )
-		.filter( item => item.isDirectory() )
-		.map( item => item.name );
-	const extractDir = path.join( tmpDir, dirs[0] );
-	const files = fs.readdirSync( extractDir, { withFileTypes: true } )
-		.map( item => item.name );
-	for( let i = 0; i < files.length; i++ ) {
-		await fsExtra.move( path.join( extractDir, files[i] ), path.join( targetPath, files[i] ), { overwrite: true } );
+	spawnSync( 'unzip', [ zipFile, '-d', tmpDir ] );
+	const dirs = fs
+		.readdirSync( tmpDir, { withFileTypes: true } )
+		.filter( ( item ) => item.isDirectory() )
+		.map( ( item ) => item.name );
+	const extractDir = path.join( tmpDir, dirs[ 0 ] );
+	const files = fs
+		.readdirSync( extractDir, { withFileTypes: true } )
+		.map( ( item ) => item.name );
+	for ( let i = 0; i < files.length; i++ ) {
+		await fsExtra.move(
+			path.join( extractDir, files[ i ] ),
+			path.join( targetPath, files[ i ] ),
+			{ overwrite: true }
+		);
 	}
 }
