@@ -2,11 +2,11 @@
  * External dependencies
  */
 import { spawnSync } from 'node:child_process';
-import fs from 'node:fs';
+//import fs from 'node:fs'; 
 import path from 'node:path';
 import { tmpdir } from 'node:os';
 import { v4 } from 'uuid';
-import fsExtra from 'fs-extra';
+import fs from 'fs-extra';
 
 /**
  * Internal dependencies
@@ -83,7 +83,7 @@ export async function extractZipTo( zipFile, targetPath ) {
 		.readdirSync( extractDir, { withFileTypes: true } )
 		.map( ( item ) => item.name );
 	for ( let i = 0; i < files.length; i++ ) {
-		await fsExtra.move(
+		await fs.move(
 			path.join( extractDir, files[ i ] ),
 			path.join( targetPath, files[ i ] ),
 			{ overwrite: true }
