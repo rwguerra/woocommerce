@@ -2,7 +2,6 @@
  * External dependencies
  */
 import { spawnSync } from 'node:child_process';
-//import fs from 'node:fs'; 
 import path from 'node:path';
 import { tmpdir } from 'node:os';
 import { v4 } from 'uuid';
@@ -12,6 +11,22 @@ import fs from 'fs-extra';
  * Internal dependencies
  */
 import { loadPackage } from '../../ci-jobs/lib/package-file';
+
+export function getAllProjects() {
+	const projects = JSON.parse(
+		spawnSync(
+			'pnpm',
+			[
+				'-r',
+				'list',
+				'--only-projects',
+				'--json',
+			],
+			{ encoding: 'utf-8' }
+		).output.join( '\n' )
+	);
+	return projects.map( project => project.name );
+}
 
 export function getProjectPathFromFilter( filter ) {
 	let projectPath = null;
