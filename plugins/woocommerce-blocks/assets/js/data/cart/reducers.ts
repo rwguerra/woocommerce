@@ -171,6 +171,15 @@ const reducer: Reducer< CartState > = (
 				},
 			};
 			break;
+		case types.SET_IS_CUSTOMER_DIRTY:
+			state = {
+				...state,
+				metaData: {
+					...state.metaData,
+					isCustomerDirty: action.isCustomerDirty,
+				},
+			};
+			break;
 		case types.SET_IS_CART_DATA_STALE:
 			state = {
 				...state,
