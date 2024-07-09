@@ -3,6 +3,7 @@
  */
 import type { CartItem } from '@woocommerce/types';
 import type { Reducer } from 'redux';
+import isShallowEqual from '@wordpress/is-shallow-equal';
 
 /**
  * Internal dependencies
@@ -82,6 +83,13 @@ const reducer: Reducer< CartState > = (
 		case types.SET_BILLING_ADDRESS:
 			state = {
 				...state,
+				metaData: {
+					...state.metaData,
+					isCustomerDataDirty: ! isShallowEqual(
+						action.billingAddress,
+						state.cartData.billingAddress
+					),
+				},
 				cartData: {
 					...state.cartData,
 					billingAddress: {
@@ -94,6 +102,13 @@ const reducer: Reducer< CartState > = (
 		case types.SET_SHIPPING_ADDRESS:
 			state = {
 				...state,
+				metaData: {
+					...state.metaData,
+					isCustomerDataDirty: ! isShallowEqual(
+						action.shippingAddress,
+						state.cartData.shippingAddress
+					),
+				},
 				cartData: {
 					...state.cartData,
 					shippingAddress: {
