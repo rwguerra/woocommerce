@@ -209,6 +209,7 @@ export interface Cart extends Record< string, unknown > {
 export interface CartMeta {
 	updatingCustomerData: boolean;
 	updatingSelectedRate: boolean;
+	isCustomerDataDirty: boolean;
 	isCartDataStale: boolean;
 	applyingCoupon: string;
 	removingCoupon: string;
