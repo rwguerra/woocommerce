@@ -188,7 +188,13 @@ export const shippingRatesBeingSelected = ( isResolving: boolean ) =>
  */
 export const applyExtensionCartUpdate =
 	( args: ExtensionCartUpdateArgs ) =>
-	async ( { dispatch }: { dispatch: CartDispatchFromMap } ) => {
+	async ( {
+		dispatch,
+		select,
+	}: {
+		select: CartSelectFromMap;
+		dispatch: CartDispatchFromMap;
+	} ) => {
 		try {
 			const { response } = await apiFetchWithHeaders( {
 				path: '/wc/store/v1/cart/extensions',
@@ -196,8 +202,21 @@ export const applyExtensionCartUpdate =
 				data: { namespace: args.namespace, data: args.data },
 				cache: 'no-store',
 			} );
-			dispatch.receiveCart( response );
-			return response;
+			if ( args.overwriteDirtyCustomerData === true ) {
+				dispatch.receiveCart( response );
+				return response;
+			}
+
+			if ( select.isCustomerDataDirty() ) {
+				// If the customer data is dirty, we don't want to overwrite it with the response.
+				// Remove shipping and billing address from the response and then receive the cart.
+				const {
+					shipping_address: _,
+					billing_address: __,
+					...rest
+				} = response;
+				dispatch.receiveCart( rest );
+			}
 		} catch ( error ) {
 			dispatch.receiveError( error );
 			return Promise.reject( error );
