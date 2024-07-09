@@ -206,17 +206,18 @@ export const applyExtensionCartUpdate =
 				dispatch.receiveCart( response );
 				return response;
 			}
-
-			if ( select.isCustomerDataDirty() ) {
-				// If the customer data is dirty, we don't want to overwrite it with the response.
-				// Remove shipping and billing address from the response and then receive the cart.
-				const {
-					shipping_address: _,
-					billing_address: __,
-					...rest
-				} = response;
-				dispatch.receiveCart( rest );
+			// If the customer data is dirty, we don't want to overwrite it with the response.
+			// Remove shipping and billing address from the response and then receive the cart.
+			const {
+				shipping_address: _,
+				billing_address: __,
+				...responseWithoutShippingOrBilling
+			} = response;
+			if ( ! select.isCustomerDataDirty() ) {
+				dispatch.receiveCart( response );
+				return;
 			}
+			dispatch.receiveCart( responseWithoutShippingOrBilling );
 		} catch ( error ) {
 			dispatch.receiveError( error );
 			return Promise.reject( error );
