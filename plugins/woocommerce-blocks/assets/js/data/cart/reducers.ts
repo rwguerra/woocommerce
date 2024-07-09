@@ -3,7 +3,6 @@
  */
 import type { CartItem } from '@woocommerce/types';
 import type { Reducer } from 'redux';
-import isShallowEqual from '@wordpress/is-shallow-equal';
 
 /**
  * Internal dependencies
