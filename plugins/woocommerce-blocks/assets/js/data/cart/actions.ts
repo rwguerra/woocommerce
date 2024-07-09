@@ -496,9 +496,11 @@ export const updateCustomerData =
 			} else {
 				dispatch.receiveCart( response );
 			}
+			dispatch.setIsCustomerDataDirty( false );
 			return response;
 		} catch ( error ) {
 			dispatch.receiveError( error );
+			dispatch.setIsCustomerDataDirty( true );
 			return Promise.reject( error );
 		} finally {
 			dispatch.updatingCustomerData( false );
