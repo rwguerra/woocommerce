@@ -464,6 +464,15 @@ export const setShippingAddress = (
 ) => ( { type: types.SET_SHIPPING_ADDRESS, shippingAddress } as const );
 
 /**
+ * Sets a flag to indicate whether the customer data has been modified.
+ */
+export const setIsCustomerDataDirty = ( isCustomerDataDirty: boolean ) =>
+	( {
+		type: types.SET_IS_CUSTOMER_DATA_DIRTY,
+		isCustomerDataDirty,
+	} as const );
+
+/**
  * Updates the shipping and/or billing address for the customer and returns an updated cart.
  */
 export const updateCustomerData =
@@ -512,6 +521,7 @@ type Actions =
 	| typeof setBillingAddress
 	| typeof setCartData
 	| typeof setErrorData
+	| typeof setIsCustomerDataDirty
 	| typeof setIsCartDataStale
 	| typeof setShippingAddress
 	| typeof shippingRatesBeingSelected
