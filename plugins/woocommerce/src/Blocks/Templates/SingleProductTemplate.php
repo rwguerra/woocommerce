@@ -57,8 +57,9 @@ class SingleProductTemplate extends AbstractTemplate {
 			}
 			$templates = get_block_templates( array( 'slug__in' => $valid_slugs ) );
 
-			if ( isset( $templates[0] ) && BlockTemplateUtils::template_has_legacy_template_block( $templates[0] ) ) {
-				add_filter( 'woocommerce_disable_compatibility_layer', '__return_true' );
+			if ( isset( $templates[0] ) && ! BlockTemplateUtils::template_has_legacy_template_block( $templates[0] ) ) {
+				$compatibility_layer = new SingleProductTemplateCompatibility();
+				$compatibility_layer->init();
 			}
 
 			add_filter( 'woocommerce_has_block_template', '__return_true', 10, 0 );
