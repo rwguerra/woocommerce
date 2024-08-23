@@ -808,7 +808,7 @@ class ProductCollection extends AbstractBlock {
 	 *
 	 * @return array
 	 */
-	private function get_on_sale_products_query( $is_on_sale ) {		
+	private function get_on_sale_products_query( $is_on_sale ) {
 		if ( is_null( $is_on_sale ) ) {
 			return array();
 		}
