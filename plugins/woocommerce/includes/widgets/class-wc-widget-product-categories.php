@@ -67,6 +67,11 @@ class WC_Widget_Product_Categories extends WC_Widget {
 				'std'   => 1,
 				'label' => __( 'Show hierarchy', 'woocommerce' ),
 			),
+			'show_only_parent' => array(
+                'type'  => 'checkbox',
+                'std'   => 0,
+                'label' => __( 'Show only parent categories', 'woocommerce' )
+            ),
 			'show_children_only' => array(
 				'type'  => 'checkbox',
 				'std'   => 0,
@@ -99,6 +104,7 @@ class WC_Widget_Product_Categories extends WC_Widget {
 
 		$count              = isset( $instance['count'] ) ? $instance['count'] : $this->settings['count']['std'];
 		$hierarchical       = isset( $instance['hierarchical'] ) ? $instance['hierarchical'] : $this->settings['hierarchical']['std'];
+		$show_only_parent = isset( $instance['show_only_parent'] ) ? $instance['show_only_parent'] : 0;
 		$show_children_only = isset( $instance['show_children_only'] ) ? $instance['show_children_only'] : $this->settings['show_children_only']['std'];
 		$dropdown           = isset( $instance['dropdown'] ) ? $instance['dropdown'] : $this->settings['dropdown']['std'];
 		$orderby            = isset( $instance['orderby'] ) ? $instance['orderby'] : $this->settings['orderby']['std'];
@@ -112,6 +118,7 @@ class WC_Widget_Product_Categories extends WC_Widget {
 			'taxonomy'     => 'product_cat',
 			'hide_empty'   => $hide_empty,
 		);
+        
 		$max_depth          = absint( isset( $instance['max_depth'] ) ? $instance['max_depth'] : $this->settings['max_depth']['std'] );
 
 		$list_args['menu_order'] = false;
@@ -152,6 +159,10 @@ class WC_Widget_Product_Categories extends WC_Widget {
 			}
 		}
 
+		// Show Parents Only.
+		if ( $show_only_parent ) {
+            $list_args['parent'] = 0;
+        }
 		// Show Siblings and Children Only.
 		if ( $show_children_only && $this->current_cat ) {
 			if ( $hierarchical ) {
